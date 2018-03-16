@@ -1,5 +1,10 @@
-function do_division(){
+document.getElementById('say').addEventListener('click', do_division);
+
+function do_operations(){
 	
+}
+
+function do_division(){
 	var first_number = +(document.getElementById('first_number').value);
     var second_number = +(document.getElementById('second_number').value);
 	if(first_number > 127){
@@ -60,8 +65,6 @@ function do_division(){
 	var result_number = parseInt(result_number_binary, 2);
 	document.getElementById('result').innerHTML = result_number;
 }
-
-document.getElementById('say').addEventListener('click', do_division);
 	
 function binary_sum(first_term, second_term){
 	if(first_term.length < second_term.length)
