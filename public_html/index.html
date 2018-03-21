@@ -9,13 +9,30 @@ and open the template in the editor.
         <title>Computings</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!--стили для таблицы-->
+		<style>
+			table{
+				border-collapse: collapse;
+			}
+			td{
+				border: 1px solid black;
+				padding : 3px;
+				text-align: center;
+			{
+		</style>
     </head>
     <body>
-        First number: <input id="first_number">
-        Second number: <input id="second_number">
-        <button id="say">Run</button>
-        
-        <div id="result"></div>
+        First numbers: <input id="first_numbers">
+        Second numbers: <input id="second_numbers">
+        <button id="run">Run</button>
+<!--div потом удалить-->        
         <script src="new_pipe_script.js"></script>
+		<div id="input1"></div>
+		<div id="input2"></div> 
+		<div id="input3"></div>
+		<table id="table"></table>
+		<div id="result1"></div>
+		<div id="result2"></div> 
+		<div id="result3"></div>
     </body>
 </html>
