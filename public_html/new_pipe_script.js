@@ -3,16 +3,44 @@ document.getElementById('run').addEventListener('click', do_operations);
 function do_operations(){
 	var first_mas_of_numbers = (document.getElementById('first_numbers').value).split(',');
 	var second_mas_of_numbers = (document.getElementById('second_numbers').value).split(',');
+	
+	if(first_mas_of_numbers.length != second_mas_of_numbers.length){
+		alert("Wrong count of symbols!");
+		return;
+	}
+	
+	for(var iter = 0; iter < first_mas_of_numbers.length; iter++){
+		if(first_mas_of_numbers[iter].search(/\D/) > -1){
+			alert("Wrong input!");
+			return;
+		}
+		if(second_mas_of_numbers[iter].search(/\D/) > -1){
+			alert("Wrong input!");
+			return;
+		}
+		if(second_mas_of_numbers[iter] == 0){
+			alert("Wrong input!");
+			return;
+		}
+	}
+	
+	var numberOfVectors = first_mas_of_numbers.length;
+	
+	for(var numberOfPair = 1; numberOfPair <= numberOfVectors; numberOfPair++){
+		var newDiv = document.createElement("div");
+		newDiv.innerHTML = "Пара " + numberOfPair + ": <" + first_mas_of_numbers[numberOfPair - 1] + "," + second_mas_of_numbers[numberOfPair - 1] + ">";
+		document.body.appendChild(newDiv);
+	}
+	
 	var table = document.createElement("table");
+	
 	var firstRow = table.insertRow(0);
 	firstRow.insertCell(0);
+	
 	var maxNumberOfStages = 0;
 	var masOfCellNumber = [];
 	
-	for(var numberOfPair = 1; numberOfPair < 4; numberOfPair++)
-		document.getElementById("input" + numberOfPair).innerHTML = "Пара " + numberOfPair + ": <" + first_mas_of_numbers[numberOfPair - 1] + "," + second_mas_of_numbers[numberOfPair - 1] + ">";
-	
-	for(var curentRow = 1; curentRow < 4; curentRow++){
+	for(var curentRow = 1; curentRow <= numberOfVectors; curentRow++){
 		var row = table.insertRow(curentRow);
 
 		masOfCellNumber[curentRow] = do_division(first_mas_of_numbers[curentRow - 1], second_mas_of_numbers[curentRow - 1], row, curentRow - 1);
@@ -36,7 +64,7 @@ function do_operations(){
 			maxNumberOfStages = masOfCellNumber[curentRow];
 	}
 	
-	for(var curentRow = 1; curentRow < 4; curentRow++){
+	for(var curentRow = 1; curentRow <= numberOfVectors; curentRow++){
 		var trList = table.getElementsByTagName('tr');
 		var tdList = trList[curentRow].getElementsByTagName('td');
 		if(masOfCellNumber[curentRow] < maxNumberOfStages){
@@ -48,7 +76,7 @@ function do_operations(){
 		}
 	}
 	
-	document.getElementById("table").appendChild(table);	
+	document.body.appendChild(table);	
 }
 
 function do_division(first_number_string, second_number_string, row, numberOfPair, firstRow){
@@ -81,8 +109,11 @@ function do_division(first_number_string, second_number_string, row, numberOfPai
 		second_number_binary_addit = binary_right_add_zeros(second_number_binary_addit, number_of_shifts);
     }
     else if(first_number_binary < second_number_binary){
-        document.getElementById('result').innerHTML = 0;
-		return;
+		var newDiv = document.createElement("div");
+		var resultId = numberOfPair + 1;
+		newDiv.innerHTML = "Результат " + resultId + ": Число - 0; Конечный такт - 0";
+		document.body.appendChild(newDiv);
+		return 0;
 	}
 	else
 		var number_of_shifts = 0;
@@ -149,9 +180,13 @@ function do_division(first_number_string, second_number_string, row, numberOfPai
 		add_new_cell(row, numberOfStages + numberOfPair, cellLine);
 	}
 	var result_number = parseInt(result_number_binary, 2);
-	resultId = numberOfPair + 1;
+	var resultId = numberOfPair + 1;
 	resultFinalStageNumber = numberOfStages + numberOfPair;
-	document.getElementById('result' + resultId).innerHTML = "Результат " + resultId + ":" + " Число - " + result_number + "; Конечный такт - " + resultFinalStageNumber;
+	
+	var newDiv = document.createElement("div");
+	newDiv.innerHTML = "Результат " + resultId + ":" + " Число - " + result_number + "; Конечный такт - " + resultFinalStageNumber;
+	document.body.appendChild(newDiv);
+	
 	return numberOfStages;
 }
 	
