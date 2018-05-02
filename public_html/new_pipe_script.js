@@ -411,7 +411,7 @@ function draw_table(masOfPairsOperations){
                 tableData.innerHTML = text;
             }
         }
-        for(var num = numberOfSteps + pairNum + 2, stepNum = numberOfSteps; num < maxNumberOfSteps + 2; num++, stepNum++){ //заполняет оставшиеся ячейки фиктивными опреациями
+        for(var num = numberOfSteps + pairNum + 2, stepNum = numberOfSteps; num < maxNumberOfSteps + pairNum + 2; num++, stepNum++){ //заполняет оставшиеся ячейки фиктивными опреациями
             var tableRow = tableRows[num];
             var lastStepNum = numberOfSteps - 1;
             var lastStep = masOfSteps[lastStepNum];
@@ -445,17 +445,16 @@ function find_max_number_of_steps(masOfPairsOperations){
 function find_max_number_of_tacts(masOfPairsOperations){
     var numberOfVectors = masOfPairsOperations.length;
     var maxNumberOfSteps = 0;
-    var maxStep = 0;
   
     for(var iter = 0; iter < numberOfVectors; iter++){   
         var currentNumbersOfSteps = masOfPairsOperations[iter].length;
-        if(currentNumbersOfSteps >= maxNumberOfSteps){
+        if(currentNumbersOfSteps > maxNumberOfSteps){
             maxNumberOfSteps = currentNumbersOfSteps;
-            maxStep = iter;
         }
     }
 
-    var maxNumberOfTacts = maxStep + maxNumberOfSteps;	
+    var lastStep = numberOfVectors - 1;
+    var maxNumberOfTacts = lastStep + maxNumberOfSteps;	
     return maxNumberOfTacts;
 }
 
