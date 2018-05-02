@@ -38,7 +38,7 @@ function do_division(){
 		partial_balance = partial_balance + second_number_binary_addit;
 		result_number_binary = result_number_binary << 1; //сдвигаем конечное число
 		partial_balance = partial_balance.toString(2);
-		if(partial_balance[0] == "-"){ //если в знаковом разряде - 1
+		if(partial_balance[0] === "-"){ //если в знаковом разряде - 1
 			partial_balance = parseInt(partial_balance, 2);
 			partial_balance = partial_balance + second_number_binary; //восстановливаем остаток
 		}
