@@ -68,12 +68,9 @@ function do_division(first_number_string, second_number_string){
     var result_number_binary = "";
     var partial_balance = first_number_binary;
     var arrayOfOperations = new Array();
-    for(var iteration = 0; iteration < number_of_shifts + 1; iteration++){
+    /*for(var iteration = 0; iteration < number_of_shifts + 1; iteration++){
         var currentStep = new Array();
-
-        /**
-         * Сдвиги
-         */
+        
         if(iteration !== 0){
             result_number_binary = binary_right_add_zeros(result_number_binary, 1);
             partial_balance = binary_left_shift(partial_balance, 1);
@@ -84,9 +81,6 @@ function do_division(first_number_string, second_number_string){
         var operation1 = ["Сдвиги", shift_result_number_binary, shift_partial_balance];
         currentStep.push(operation1);
 
-        /**
-         * Вычитание
-         */
         partial_balance = binary_sum(partial_balance, second_number_binary_addit);
 
         shift_result_number_binary = return_8bit_shift_number(result_number_binary);
@@ -94,11 +88,6 @@ function do_division(first_number_string, second_number_string){
         var operation2 = ["Вычитание", shift_result_number_binary, shift_partial_balance];
         currentStep.push(operation2);
 
-        /**
-         * Если получаем единицу в старшем разряде частичного остатка
-         * то в текущий разряд результата заносим ноль
-         * и восстановливаем частичный остаток
-         */
         if(partial_balance[0] === "1" && partial_balance.length === number_of_digits_in_first){
             result_number_binary = binary_sum(result_number_binary, "0"); 					 
 
@@ -117,11 +106,7 @@ function do_division(first_number_string, second_number_string){
             if(partial_balance[0] === "1" && partial_balance.length > number_of_digits_in_first)
                 partial_balance = partial_balance.substring(1);
         }
-        /**
-         * Если получаем ноль в старшем разряде частичного остатка
-         * то в текущий разряд результата заносим единицу
-         * и делаем фиктивное восстановление остатка
-         */
+        
         else if(partial_balance[0] === "0" && partial_balance.length === number_of_digits_in_first){
             result_number_binary = binary_sum(result_number_binary, "1"); 						 
 
@@ -135,11 +120,7 @@ function do_division(first_number_string, second_number_string){
             var operation4 = ["Восстанавление остатка", shift_result_number_binary, shift_partial_balance];
             currentStep.push(operation4);
         }
-        /**
-         * Если получаем два в старшем разряде частичного остатка
-         * то в текущий разряд результата заносим единицу 
-         * и делаем фиктивное восстановление остатка
-         */
+        
         else if(partial_balance[0] === "1" && partial_balance.length > number_of_digits_in_first){
             partial_balance = partial_balance.substring(1);										 
             result_number_binary = binary_sum(result_number_binary, "1");
@@ -156,7 +137,7 @@ function do_division(first_number_string, second_number_string){
         }
 
         arrayOfOperations.push(currentStep);
-    }
+    }*/
 
     return arrayOfOperations;
 }
