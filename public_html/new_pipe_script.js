@@ -25,119 +25,80 @@ function main(){
 function do_division(first_number_string, second_number_string){
     var first_number = +(first_number_string);
     var second_number = +(second_number_string);
-
-    var first_number_binary = "0" + first_number.toString(2);
-    var second_number_binary = "0" + second_number.toString(2);
-    var second_number_binary_addit = binary_sum(binary_not(second_number_binary), "1");
-	
-    var number_of_digits_in_first = first_number_binary.length;
-    var number_of_digits_in_second = second_number_binary.length;
-	
-    if(number_of_digits_in_first > number_of_digits_in_second){
-        var number_of_shifts = number_of_digits_in_first - number_of_digits_in_second;
-        second_number_binary = binary_right_add_zeros(second_number_binary, number_of_shifts);
-        second_number_binary_addit = binary_right_add_zeros(second_number_binary_addit, number_of_shifts);
-    }
-    else if(first_number_binary < second_number_binary){
-        var arrayOfOperations = new Array();
-        
-        var currentStep = new Array();
-        
-        var shift_result_number_binary = return_8bit_shift_number(result_number_binary);
-        var shift_partial_balance = return_8bit_shift_number(partial_balance);
-        
-        var operation1 = ["Сдвиги", shift_result_number_binary, shift_partial_balance];
-        currentStep.push(operation1);
-        
-        var operation2 = ["Вычитание", shift_result_number_binary, shift_partial_balance];
-        currentStep.push(operation2);
-        
-        var operation3 = ["Заносим 0", shift_result_number_binary, shift_partial_balance];
-        currentStep.push(operation3);
-            
-        var operation4 = ["Восстанавливаем остаток", shift_result_number_binary, shift_partial_balance];
-        currentStep.push(operation4);    
-        
-        arrayOfOperations.push(currentStep);
-        
-        return arrayOfOperations;
-    }
-    else
-        var number_of_shifts = 0;
-	
-    var result_number_binary = "";
-    var partial_balance = first_number_binary;
+    
+    var a = return_8bit_shift_number(first_number.toString(2));
+    var b = "0" + return_8bit_shift_number(second_number.toString(2));
+    
+    var b_not = binary_not(b);
+    var b_rev = binary_sum(b_not, "1");
+    var b_addit = return_8bit_shift_number(b_rev);
+    
+    var p = "000000000";
+    
     var arrayOfOperations = new Array();
-    /*for(var iteration = 0; iteration < number_of_shifts + 1; iteration++){
+    
+    for(var iteration = 0; iteration < 8; iteration++){
         var currentStep = new Array();
         
-        if(iteration !== 0){
-            result_number_binary = binary_right_add_zeros(result_number_binary, 1);
-            partial_balance = binary_left_shift(partial_balance, 1);
-        }
+        var p_a_union = p + a;
+        
+        p_a_union = binary_left_shift(p_a_union, 1);
+        
+        var index = 9;
+        
+        p = p_a_union.substring(0,index);
+        a = p_a_union.substring(index);
 
-        var shift_result_number_binary = return_8bit_shift_number(result_number_binary);
-        var shift_partial_balance = return_8bit_shift_number(partial_balance);
-        var operation1 = ["Сдвиги", shift_result_number_binary, shift_partial_balance];
+        var operation1 = ["Сдвиги", p, a];
         currentStep.push(operation1);
 
-        partial_balance = binary_sum(partial_balance, second_number_binary_addit);
+        p = binary_sum(p, b_addit);
 
-        shift_result_number_binary = return_8bit_shift_number(result_number_binary);
-        shift_partial_balance = return_8bit_shift_number(partial_balance);
-        var operation2 = ["Вычитание", shift_result_number_binary, shift_partial_balance];
+        var operation2 = ["Вычитание", p, a];
         currentStep.push(operation2);
+        
+        var p_overlof = 10;
+        var p_no_overlof = 9;
+        
+        if(p[0] === "1" && p.length === p_no_overlof){
+            a = binary_sum(a, "0"); 					 
 
-        if(partial_balance[0] === "1" && partial_balance.length === number_of_digits_in_first){
-            result_number_binary = binary_sum(result_number_binary, "0"); 					 
-
-            shift_result_number_binary = return_8bit_shift_number(result_number_binary);
-            shift_partial_balance = return_8bit_shift_number(partial_balance);
-            var operation3 = ["Занесение 0", shift_result_number_binary, shift_partial_balance];
+            var operation3 = ["Занесение 0", p, a];
             currentStep.push(operation3);
 
-            partial_balance = binary_sum(partial_balance, second_number_binary);
+            p = binary_sum(p, b);
+            
+            if(p[0] === "1" && p.length === p_overlof)
+                p = p.substring(1);
 
-            shift_result_number_binary = return_8bit_shift_number(result_number_binary);
-            shift_partial_balance = return_8bit_shift_number(partial_balance);
-            var operation4 = ["Восстанавление остатка", shift_result_number_binary, shift_partial_balance];
-            currentStep.push(operation4);
-
-            if(partial_balance[0] === "1" && partial_balance.length > number_of_digits_in_first)
-                partial_balance = partial_balance.substring(1);
+            var operation4 = ["Восстанавление остатка", p, a];
+            currentStep.push(operation4);         
         }
         
-        else if(partial_balance[0] === "0" && partial_balance.length === number_of_digits_in_first){
-            result_number_binary = binary_sum(result_number_binary, "1"); 						 
+        else if(p[0] === "0" && p.length === p_no_overlof){
+            a = binary_sum(a, "1"); 						 
 
-            shift_result_number_binary = return_8bit_shift_number(result_number_binary);
-            shift_partial_balance = return_8bit_shift_number(partial_balance);
-            var operation5 = ["Занесение 1", shift_result_number_binary, shift_partial_balance];
-            currentStep.push(operation5);
+            var operation3 = ["Занесение 1", p, a];
+            currentStep.push(operation3);
 
-            shift_result_number_binary = return_8bit_shift_number(result_number_binary);
-            shift_partial_balance = return_8bit_shift_number(partial_balance);
-            var operation4 = ["Восстанавление остатка", shift_result_number_binary, shift_partial_balance];
+            var operation4 = ["Восстанавление остатка", p, a];
             currentStep.push(operation4);
         }
         
-        else if(partial_balance[0] === "1" && partial_balance.length > number_of_digits_in_first){
-            partial_balance = partial_balance.substring(1);										 
-            result_number_binary = binary_sum(result_number_binary, "1");
+        else if(p[0] === "1" && p.length === p_overlof){
+            p = p.substring(1);	
+            
+            a = binary_sum(a, "1");
 
-            shift_result_number_binary = return_8bit_shift_number(result_number_binary);
-            shift_partial_balance = return_8bit_shift_number(partial_balance);
-            var operation6 = ["Занесение 1", shift_result_number_binary, shift_partial_balance];
-            currentStep.push(operation6);
+            var operation3 = ["Занесение 1", p, a];
+            currentStep.push(operation3);
 
-            shift_result_number_binary = return_8bit_shift_number(result_number_binary);
-            shift_partial_balance = return_8bit_shift_number(partial_balance);
-            var operation4 = ["Восстанавление остатка", shift_result_number_binary, shift_partial_balance];
+            var operation4 = ["Восстанавление остатка", p, a];
             currentStep.push(operation4);
         }
 
         arrayOfOperations.push(currentStep);
-    }*/
+    }
 
     return arrayOfOperations;
 }
@@ -149,7 +110,7 @@ function binary_sum(first_term, second_term){
 		second_term = binary_left_add_zeros(second_term, first_term.length - second_term.length);
 	var shift = 0;
 	var result = "";
-	for(iter = first_term.length - 1; iter >= 0; iter--){
+	for(var iter = first_term.length - 1; iter >= 0; iter--){
 		if(first_term[iter] === "1" && second_term[iter] === "1" && shift === 1){
 			result = "1" + result;
 			shift = 1;
@@ -244,36 +205,36 @@ function return_8bit_shift_number(number){
 function check_input(first_mas_of_numbers, second_mas_of_numbers){
 	//не совпадает количество делимых и делителей
 	if(first_mas_of_numbers.length !== second_mas_of_numbers.length){
-		alert("Wrong count of symbols!");
+		alert("Не совпадает количество делимых и делителей!");
 		return(false);
 	}
 	
 	for(var iter = 0; iter < first_mas_of_numbers.length; iter++){
 		//буквы в вводе
 		if(first_mas_of_numbers[iter].search(/\D/) > -1){
-			alert("Wrong input!");
+			alert("Присутствие посторонних символов в вводе!");
 			return(false);
 		}
 		if(second_mas_of_numbers[iter].search(/\D/) > -1){
-			alert("Wrong input!");
+			alert("Присутствие посторонних символов в вводе!");
 			return(false);
 		}
 		
 		//деление на ноль
 		if(second_mas_of_numbers[iter] === 0){
-			alert("Division by zero!");
+			alert("Деление на ноль!");
 			return(false);
 		}
 		
 		//переполнение
 		var first_number = +(first_mas_of_numbers[iter]);
 		var second_number = +(second_mas_of_numbers[iter]);
-		if(first_number > 127){
-			alert("Wrong input number!");
+		if(first_number > 255){
+			alert("Неверное число в вводе!");
 			return(false);
 		}
-		if(second_number > 127){
-			alert("Wrong input number!");
+		if(second_number > 255){
+			alert("Неверное число в вводе!");
 			return(false);
 		}
 	}
@@ -288,8 +249,22 @@ function show_input(first_mas_of_numbers, second_mas_of_numbers){
     document.body.appendChild(newDiv);
 
     for(var numberOfPair = 1; numberOfPair <= numberOfVectors; numberOfPair++){
+        var first_number = +(first_mas_of_numbers[numberOfPair - 1]);
+        var second_number = +(second_mas_of_numbers[numberOfPair - 1]);
+    
+        var a = return_8bit_shift_number(first_number.toString(2));
+        var b = "0." + return_8bit_shift_number(second_number.toString(2));
+        
+        var b_not = binary_not(b);
+        var b_rev = binary_sum(b_not, "1");
+        var b_addit = return_8bit_shift_number(b_rev);
+        var b_addit_dot = b_addit.substring(0,1) + "." + b_addit.substring(1);
+        
         var newDiv = document.createElement("div");
-        newDiv.innerHTML = "Вектор " + numberOfPair + ": <" + first_mas_of_numbers[numberOfPair - 1] + "," + second_mas_of_numbers[numberOfPair - 1] + ">";
+        newDiv.innerHTML = "Вектор " + numberOfPair + ": <"
+                         + first_mas_of_numbers[numberOfPair - 1] + ","
+                         + second_mas_of_numbers[numberOfPair - 1] + ">"
+                         + " A = " + a + " B = " + b + " ~B+1 = " + b_addit_dot;
         document.body.appendChild(newDiv);
     }
 }
@@ -297,15 +272,15 @@ function show_input(first_mas_of_numbers, second_mas_of_numbers){
 function draw_table(masOfPairsOperations){
     var table = document.createElement("table");
     table = document.createElement("table");
-    width = 4000;
+    var width = 8000;
     table.setAttribute("width", width);
     table.setAttribute("border", "1");
     table.setAttribute("bordercolor", "black");
     table.setAttribute("align", "center");
 
     var numberOfVectors = masOfPairsOperations.length;
-    var maxNumberOfSteps = find_max_number_of_steps(masOfPairsOperations);
-    var maxNumberOfTacts = find_max_number_of_tacts(masOfPairsOperations);
+    var maxNumberOfTacts = find_max_number_of_tacts(numberOfVectors);
+    var maxNumberOfSteps = 8;
     
     var tableRow = document.createElement("tr");
     var tableHeader = document.createElement("th");
@@ -381,26 +356,14 @@ function draw_table(masOfPairsOperations){
     for(var pairNum = 0; pairNum < numberOfVectors; pairNum++){
         var masOfSteps = masOfPairsOperations[pairNum];
         var numberOfSteps = masOfSteps.length;
-        for(var num = pairNum + 2, stepNum = 0; num < numberOfSteps + pairNum + 2 && stepNum < numberOfSteps; num++, stepNum++){ //2 - т.к. уже заполнили две первые строки; pairNum - номер текущей пары, увеличивается припереходе к следующей, а соответственно увеличивается и номер первой заполняемой ячейки для текущего вектора
+        for(var num = pairNum + 2, stepNum = 0; num < numberOfSteps + pairNum + 2 && stepNum < numberOfSteps; num++, stepNum++){ //2 - т.к. уже заполнили две первые строки; pairNum - номер текущей пары, увеличивается при переходе к следующей, а соответственно увеличивается и номер первой заполняемой ячейки для текущего вектора
             var tableRow = tableRows[num];
             var step = masOfSteps[stepNum];
             var tableCells = tableRow.cells;
             for(var operationNum = 0; operationNum < 4; operationNum++){                  
                 var operation = step[operationNum]; 
                 var tableData = tableCells[(stepNum * 4) + operationNum + 1];
-                var text = "<p>Вектор " + (pairNum + 1) + "</p><p>" + operation[0] + ":</p><p>результат - " + operation[1] + ",</p><p>остаток - " + operation[2] + "</p><p>Такт " + (num - 1) + "</p>";
-                tableData.innerHTML = text;
-            }
-        }
-        for(var num = numberOfSteps + pairNum + 2, stepNum = numberOfSteps; num < maxNumberOfSteps + pairNum + 2; num++, stepNum++){ //заполняет оставшиеся ячейки фиктивными опреациями
-            var tableRow = tableRows[num];
-            var lastStepNum = numberOfSteps - 1;
-            var lastStep = masOfSteps[lastStepNum];
-            var tableCells = tableRow.cells;
-            for(var operationNum = 0; operationNum < 4; operationNum++){                  
-                var operation = lastStep[operationNum]; 
-                var tableData = tableCells[(stepNum * 4) + operationNum + 1];
-                var text = "<p>Вектор " + (pairNum + 1) + "</p><p>" + operation[0] + ":</p><p>результат - " + operation[1] + ",</p><p>остаток - " + operation[2] + "</p><p>Такт " + (num - 1) + "</p>";
+                var text = "<p>Вектор " + (pairNum + 1) + "</p><p>" + operation[0] + ":</p><p>P: " + operation[1] + ",</p><p>A: " + operation[2] + "</p><p>Такт " + (num - 1) + "</p>";
                 tableData.innerHTML = text;
             }
         }
@@ -409,39 +372,15 @@ function draw_table(masOfPairsOperations){
     document.body.appendChild(table);
 }
 
-function find_max_number_of_steps(masOfPairsOperations){
-    var numberOfVectors = masOfPairsOperations.length;
-    var maxNumberOfSteps = 0;
-
-    for(var iter = 0; iter < numberOfVectors; iter++){ 
-        var currentNumbersOfSteps = masOfPairsOperations[iter].length;
-        if(currentNumbersOfSteps > maxNumberOfSteps){
-           maxNumberOfSteps = currentNumbersOfSteps;
-        }
-    }
-
-    return maxNumberOfSteps;
-}
-
-function find_max_number_of_tacts(masOfPairsOperations){
-    var numberOfVectors = masOfPairsOperations.length;
-    var maxNumberOfSteps = 0;
-  
-    for(var iter = 0; iter < numberOfVectors; iter++){   
-        var currentNumbersOfSteps = masOfPairsOperations[iter].length;
-        if(currentNumbersOfSteps > maxNumberOfSteps){
-            maxNumberOfSteps = currentNumbersOfSteps;
-        }
-    }
-
-    var lastStep = numberOfVectors - 1;
-    var maxNumberOfTacts = lastStep + maxNumberOfSteps;	
+function find_max_number_of_tacts(numberOfVectors){
+    var numberOfSteps = 7;
+    var maxNumberOfTacts = numberOfVectors + numberOfSteps;	
     return maxNumberOfTacts;
 }
 
 function show_output(masOfPairsOperations){
     var numberOfVectors = masOfPairsOperations.length;
-    var maxNumberOfSteps = find_max_number_of_steps(masOfPairsOperations);
+    var maxNumberOfSteps = 8;
 
     var newDiv = document.createElement("div");
     newDiv.innerHTML = "Результат: ";   
@@ -449,11 +388,12 @@ function show_output(masOfPairsOperations){
     
     for(var numberOfPair = 0; numberOfPair < numberOfVectors; numberOfPair++){        
         var masOfSteps = masOfPairsOperations[numberOfPair];
-        var lastStepNumber = masOfSteps.length - 1;
-        var lastStep = masOfSteps[lastStepNumber];
-        var lastOperationNumber = lastStep.length - 1;
-        var lastOperation = lastStep[lastOperationNumber];
-        var result = parseInt(lastOperation[1], 2);
+        var lastStepIndex = 7;
+        var lastStep = masOfSteps[lastStepIndex];
+        var lastOperationIndex = 3;
+        var lastOperation = lastStep[lastOperationIndex];
+        var p = lastOperation[2];
+        var result = parseInt(p, 2);
         
         newDiv = document.createElement("div");
         newDiv.innerHTML = "Вектор " + (numberOfPair + 1) + ": " + result + " Число тактов - " + (maxNumberOfSteps + numberOfPair);
