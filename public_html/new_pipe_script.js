@@ -1,5 +1,6 @@
 document.getElementById('run').addEventListener('click', main);
 
+//author - Новицкий В.А. group - 621701
 function main(){
 	var first_mas_of_numbers = (document.getElementById('first_numbers').value).split(','); //получаем 2 числа из полей ввода
 	var second_mas_of_numbers = (document.getElementById('second_numbers').value).split(',');
@@ -22,8 +23,9 @@ function main(){
 		
 }
 
-function do_division(first_number_string, second_number_string){ //деление
-    var first_number = +(first_number_string); //переводим из строки в инт
+//author - Новицкий В.А. group - 621701
+function do_division(first_number_string, second_number_string){
+    var first_number = +(first_number_string);
     var second_number = +(second_number_string);
     
     var a = return_8bit_shift_number(first_number.toString(2)); //добавляем слева к числу некоторое количество нулей чтобы получить 8 разрядов в итоговом числе (a - делимое b - делитель)
@@ -102,7 +104,8 @@ function do_division(first_number_string, second_number_string){ //делени�
 
     return arrayOfSteps; //возвращаем этот массив
 }
-	
+
+//author - Карбанович И.М. group - 621701
 function binary_sum(first_term, second_term){
     if(first_term.length < second_term.length)
         first_term = binary_left_add_zeros(first_term, second_term.length - first_term.length);
@@ -141,6 +144,7 @@ function binary_sum(first_term, second_term){
     return result;
 } 
 
+//author - Карбанович И.М. group - 621701
 function binary_not(operand){
     for(var iter = 0; iter < operand.length; iter++){
         if(iter === 0){
@@ -177,13 +181,7 @@ function binary_not(operand){
     return operand;
 }
 
-function binary_right_add_zeros(operand, number_of_zeros){
-    for(var iter = 0; iter < number_of_zeros; iter++){
-        operand = operand + "0";
-    }
-    return operand;
-}
-
+//author - Новицкий В.А. group - 621701
 function binary_left_shift(operand, number_of_shifts){
     for(var iter = 0; iter < number_of_shifts; iter++){
         operand = operand.substring(1);
@@ -192,55 +190,50 @@ function binary_left_shift(operand, number_of_shifts){
     return operand;
 }
 
+//author - Новицкий В.А. group - 621701
 function binary_left_add_zeros(operand, number_of_zeros){
     for(var iter = 0; iter < number_of_zeros; iter++)
         operand = "0" + operand;
     return operand;	
 }
 
+//author - Новицкий В.А. group - 621701
 function return_8bit_shift_number(number){
     return binary_left_add_zeros(number, 8 - number.length);
 }
 
+//author - Карбанович И.М. group - 621701
 function check_input(first_mas_of_numbers, second_mas_of_numbers){
-    //не совпадает количество делимых и делителей
-    if(first_mas_of_numbers.length !== second_mas_of_numbers.length){
-            alert("Не совпадает количество делимых и делителей!");
-            return(false);
-    }
-
-    for(var iter = 0; iter < first_mas_of_numbers.length; iter++){
-        //буквы в вводе
-        if(first_mas_of_numbers[iter].search(/\D/) > -1){
-            alert("Присутствие посторонних символов в вводе!");
-            return(false);
-        }
-        if(second_mas_of_numbers[iter].search(/\D/) > -1){
-            alert("Присутствие посторонних символов в вводе!");
-            return(false);
-        }
-
-        //деление на ноль
-        if(second_mas_of_numbers[iter] === 0){
-            alert("Деление на ноль!");
-            return(false);
-        }
-
-        //переполнение
-        var first_number = +(first_mas_of_numbers[iter]);
-        var second_number = +(second_mas_of_numbers[iter]);
-        if(first_number > 255){
-            alert("Неверное число в вводе!");
-            return(false);
-        }
-        if(second_number > 255){
-            alert("Неверное число в вводе!");
-            return(false);
-        }
-    }
-    return true;
+	if(first_mas_of_numbers.length !== second_mas_of_numbers.length){
+		alert("Не совпадает количество делимых и делителей!");
+		return(false);
+	}
+	
+	for(var iter = 0; iter < first_mas_of_numbers.length; iter++){
+		if(first_mas_of_numbers[iter].search(/\D/) > -1){
+			alert("Присутствие посторонних символов в вводе!");
+			return(false);
+		}
+		if(second_mas_of_numbers[iter].search(/\D/) > -1){
+			alert("Присутствие посторонних символов в вводе!");
+			return(false);
+		}
+		
+		var first_number = +(first_mas_of_numbers[iter]);
+		var second_number = +(second_mas_of_numbers[iter]);
+		if(first_number > 255){
+			alert("Неверное число в вводе!");
+			return(false);
+		}
+		if(second_number > 255){
+			alert("Неверное число в вводе!");
+			return(false);
+		}
+	}
+	return true;
 }
 
+//author - Новицкий В.А. group - 621701
 function show_input(first_mas_of_numbers, second_mas_of_numbers){
     var numberOfVectors = first_mas_of_numbers.length;
     
@@ -269,6 +262,7 @@ function show_input(first_mas_of_numbers, second_mas_of_numbers){
     }
 }
 
+//author - Карбанович И.М. group - 621701
 function draw_table(masOfPairsOperations){
     var table = document.createElement("table");
     table = document.createElement("table");
@@ -337,9 +331,6 @@ function draw_table(masOfPairsOperations){
 
     var tableRows = table.rows;
     
-    /**
-     * Добавляем в таблицу ячейки
-     */
     for(var rowNum = 2; rowNum < maxNumberOfTacts + 2; rowNum++){
         var tableRow = tableRows[rowNum];
         for(var colNum = 0; colNum < maxNumberOfSteps * 4; colNum++){           
@@ -350,20 +341,19 @@ function draw_table(masOfPairsOperations){
         }
     }
          
-    /**
-     * Заносим данные в ячейки
-     */
     for(var pairNum = 0; pairNum < numberOfVectors; pairNum++){
         var masOfSteps = masOfPairsOperations[pairNum];
         var numberOfSteps = masOfSteps.length;
-        for(var num = pairNum + 2, stepNum = 0; num < numberOfSteps + pairNum + 2 && stepNum < numberOfSteps; num++, stepNum++){ //2 - т.к. уже заполнили две первые строки; pairNum - номер текущей пары, увеличивается при переходе к следующей, а соответственно увеличивается и номер первой заполняемой ячейки для текущего вектора
+        for(var num = pairNum + 2, stepNum = 0; num < numberOfSteps + pairNum + 2 && stepNum < numberOfSteps; num++, stepNum++){
             var tableRow = tableRows[num];
             var step = masOfSteps[stepNum];
             var tableCells = tableRow.cells;
             for(var operationNum = 0; operationNum < 4; operationNum++){                  
                 var operation = step[operationNum]; 
                 var tableData = tableCells[(stepNum * 4) + operationNum + 1];
-                var text = "<p>Вектор " + (pairNum + 1) + "</p><p>" + operation[0] + ":</p><p>P: " + operation[1] + ",</p><p>A: " + operation[2] + "</p><p>Такт " + (num - 1) + "</p>";
+                var text = "<p>Вектор " + (pairNum + 1) + "</p><p>" + operation[0]
+                         + ":</p><p>P: " + operation[1] + ",</p><p>A: "
+                         + operation[2] + "</p><p>Такт " + (num - 1) + "</p>";
                 tableData.innerHTML = text;
             }
         }
@@ -372,12 +362,14 @@ function draw_table(masOfPairsOperations){
     document.body.appendChild(table);
 }
 
+//author - Карбанович И.М. group - 621701
 function find_max_number_of_tacts(numberOfVectors){
     var numberOfSteps = 7;
     var maxNumberOfTacts = numberOfVectors + numberOfSteps;	
     return maxNumberOfTacts;
 }
 
+//author - Новицкий В.А. group - 621701
 function show_output(masOfPairsOperations){
     var numberOfVectors = masOfPairsOperations.length;
     var maxNumberOfSteps = 8;
@@ -396,7 +388,8 @@ function show_output(masOfPairsOperations){
         var result = parseInt(p, 2);
         
         newDiv = document.createElement("div");
-        newDiv.innerHTML = "Вектор " + (numberOfPair + 1) + ": " + result + " Число тактов - " + (maxNumberOfSteps + numberOfPair);
+        newDiv.innerHTML = "Вектор " + (numberOfPair + 1) + ": " + result
+                         + " Число тактов - " + (maxNumberOfSteps + numberOfPair);
         document.body.appendChild(newDiv);
     }
 }
